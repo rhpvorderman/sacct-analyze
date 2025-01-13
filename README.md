@@ -13,7 +13,7 @@ optional arguments:
 
 ### Example
 ```
-python3 sacct-analyze.py --name 'common_job_prefix' > results.tsv
+python3 sacct-analyze.py > results.tsv
 ```
 
 
