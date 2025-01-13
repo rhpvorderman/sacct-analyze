@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import argparse
 import json
 import subprocess
 import tempfile
@@ -69,3 +70,36 @@ class SlurmJob(typing.NamedTuple):
             time = job_dict["time"]["limit"]["number"] * 60,
             max_rss=max_rss,
         )
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--name",
+                        help="Should have these contents in the name",
+                        default="")
+    args = parser.parse_args()
+    search_name = args.name
+    sacct_data = get_sacct_data()
+    print(
+        "Name\t"
+        "Requested CPU\tAvailable CPU time (hours)\tUsed CPU time (hours)\t"
+        "CPU Efficiency (%)\t"
+        "Requested Memory (GiB)\tUsed Memory (GiB)\tMemory efficiency (%)\t"
+        "Requested Time (hours)\tUsed Time (hours)\tTime Efficiency (%)")
+    for job_dict in sacct_data["jobs"]:
+        job = SlurmJob.from_job_dict(job_dict)
+        if search_name not in job.job_name:
+            continue
+        elapsed_time = job.elapsed_time / 3600
+        requested_time = job.time / 3600
+        available_cpu_time = elapsed_time * job.cpu
+        cpu_time = job.cpu_time / 3600
+        print(f"{job.job_name}\t"
+              f"{job.cpu}\t{available_cpu_time:.2f}\t{cpu_time:.2f}\t"
+              f"{available_cpu_time/cpu_time:.2%}\t"
+              f"{job.memory / 1024:.2f}\t{job.max_rss/1024:.2f}\t"
+              f"{job.max_rss/job.memory:.2%}\t"
+              f"{requested_time}\t{elapsed_time}\t"
+              f"{requested_time / elapsed_time:.2%}"
+          )
+
