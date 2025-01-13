@@ -96,10 +96,10 @@ if __name__ == "__main__":
         cpu_time = job.cpu_time / 3600
         print(f"{job.job_name}\t"
               f"{job.cpu}\t{available_cpu_time:.2f}\t{cpu_time:.2f}\t"
-              f"{available_cpu_time/cpu_time:.2%}\t"
+              f"{cpu_time/available_cpu_time:.2%}\t"
               f"{job.memory / 1024:.2f}\t{job.max_rss/1024:.2f}\t"
               f"{job.max_rss/job.memory:.2%}\t"
               f"{requested_time}\t{elapsed_time}\t"
-              f"{requested_time / elapsed_time:.2%}"
+              f"{elapsed_time / requested_time:.2%}"
           )
 
