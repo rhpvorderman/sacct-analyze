@@ -99,7 +99,7 @@ if __name__ == "__main__":
               f"{cpu_time/available_cpu_time:.2%}\t"
               f"{job.memory / 1024:.2f}\t{job.max_rss/1024:.2f}\t"
               f"{job.max_rss/job.memory:.2%}\t"
-              f"{requested_time}\t{elapsed_time}\t"
+              f"{requested_time:.2f}\t{elapsed_time:.2f}\t"
               f"{elapsed_time / requested_time:.2%}"
           )
 
