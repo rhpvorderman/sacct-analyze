@@ -1,6 +1,11 @@
 # sacct-analyze
 
 The script calls `sacct --json` and parses it. 
+It then outputs a tab-separated table with the requested cpu, memory and time and their actual usage. 
+This helps to tune your request size and get better scheduling.
+
+For example, when available cputime is much higher than actual cpu time, your job has not used all provided 
+cores at 100% and could probably do with less.  
 
 ## Usage
 ```
@@ -27,3 +32,6 @@ call-deepVariantTask-1|4|50.05|48.72|97.33%|48.00|9.30|19.38%|83.33|12.51|15.02%
 call-deepVariantTask-3|4|50.53|49.26|97.49%|48.00|9.39|19.57%|83.33|12.63|15.16%
 call-deepVariantTask-0|4|40.17|39.08|97.29%|48.00|8.04|16.74%|83.33|10.04|12.05%
 call-deepVariantTask-4|4|35.69|34.60|96.94%|48.00|8.06|16.79%|83.33|8.92|10.71%
+
+In this example all the four provided cores are kept busy during the job runtime. 
+The amount of memory and time needed was much less than initially anticipated however.
